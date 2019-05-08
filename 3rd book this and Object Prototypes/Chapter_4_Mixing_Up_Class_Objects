@@ -1,0 +1,119 @@
+
+In general, faking classes in JS often sets more landmines for future coding than solving present real problems.
+
+"Class/Inheritance" describes a certain form of code organization and architecture -- a way of modeling real world problem domains in our software.
+
+Another key concept with classes is "polymorphism", which describes the idea that a general behavior from a parent class can be overridden in a child class to give it more specifics.
+
+JS has had some class-like syntactic elements (like new and instanceof) for quite awhile, and more recently in ES6, some additions, like the class keyword
+
+But does that mean JavaScript actually has classes? Plain and simple: No.
+
+classes are an optional pattern in software design, and you have the choice to use them in JavaScript or not.
+
+A class is a blue-print. To actually get an object we can interact with, we must build (aka, "instantiate") something from the class. The end result of such "construction" is an object, typically called an "instance", which we can directly call methods on and access any public data properties from, as necessary.
+
+This object is a copy of all the characteristics described by the class.
+
+A class is instantiated into object form by a copy operation.
+
+
+Constructor
+
+Instances of classes are constructed by a special method of the class, usually of the same name as the class, called a constructor. This method's explicit job is to initialize any information (state) the instance will need.
+
+The constructor of a class belongs to the class, almost universally with the same name as the class. Also, constructors pretty much always need to be called with new to let the language engine know you want to construct a new class instance.
+
+
+Class Inheritance
+
+In class-oriented languages, not only can you define a class which can be instantiated itself, but you can define another class that inherits from the first class.
+
+ once a child class is defined, it's separate and distinct from the parent class. The child class contains an initial copy of the behavior from the parent, but can then override any inherited behavior and even define new behavior.
+
+
+Polymorphism
+
+the idea that any method can reference another method (of the same or different name) at a higher level of the inheritance hierarchy. We say "relative" because we don't absolutely define which inheritance level (aka, class) we want to access, but rather relatively reference it by essentially saying "look one level up".
+
+In many languages, the keyword super is used, in place of this example's inherited:, which leans on the idea that a "super class" is the parent/ancestor of the current class.
+
+ the definition for the method ignition() polymorphs (changes) depending on which class (level of inheritance) you are referencing an instance of.
+
+When classes are inherited, there is a way for the classes themselves (not the object instances created from them!) to relatively reference the class inherited from, and this relative reference is usually called super.
+
+Don't let polymorphism confuse you into thinking a child class is linked to its parent class. A child class instead gets a copy of what it needs from the parent class. Class inheritance implies copies.
+
+
+Multiple Inheritance
+
+JavaScript is simpler: it does not provide a native mechanism for "multiple inheritance". Many see this as a good thing, because the complexity savings more than make up for the "reduced" functionality. But this doesn't stop developers from trying to fake it in various ways, as we'll see next.
+
+
+Mixins
+
+JavaScript's object mechanism does not automatically perform copy behavior when you "inherit" or "instantiate". Plainly, there are no "classes" in JavaScript to instantiate, only objects. And objects don't get copied to other objects, they get linked together (more on that in Chapter 5).
+
+Since observed class behaviors in other languages imply copies, let's examine how JS developers fake the missing copy behavior of classes in JavaScript: mixins. We'll look at two types of "mixin": explicit and implicit.
+
+Explicit Mixins
+
+ Since JavaScript will not automatically copy behavior from Vehicle to Car, we can instead create a utility that manually copies. Such a utility is often called extend(..) by many libraries/frameworks, but we will call it mixin(..) here for illustrative purposes.
+
+Car now has a copy of the properties and functions from Vehicle. Technically, functions are not actually duplicated, but rather references to the functions are copied. So, Car now has a property called ignition, which is a copied reference to the ignition() function, as well as a property called engines with the copied value of 1 from Vehicle.
+
+Car already had a drive property (function), so that property reference was not overridden (see the if statement in mixin(..) above).
+
+"Polymorphism" Revisited
+Let's examine this statement: Vehicle.drive.call( this ). This is what I call "explicit pseudo-polymorphism". Recall in our previous pseudo-code this line was inherited:drive(), which we called "relative polymorphism".
+
+JavaScript does not have (prior to ES6; see Appendix A) a facility for relative polymorphism. So, because both Car and Vehicle had a function of the same name: drive(), to distinguish a call to one or the other, we must make an absolute (not relative) reference. We explicitly specify the Vehicle object by name, and call the drive() function on it.
+
+But if we said Vehicle.drive(), the this binding for that function call would be the Vehicle object instead of the Car object (see Chapter 2), which is not what we want. So, instead we use .call( this ) (Chapter 2) to ensure that drive() is executed in the context of the Car object.
+
+The result of such approaches is usually more complex, harder-to-read, and harder-to-maintain code. Explicit pseudo-polymorphism should be avoided wherever possible, because the cost outweighs the benefit in most respects.
+
+Note: A few minor details have been skimmed over here. There are still some subtle ways the two objects can "affect" each other even after copying, such as if they both share a reference to a common object (such as an array).
+
+Since the two objects also share references to their common functions, that means that even manual copying of functions (aka, mixins) from one object to another doesn't actually emulate the real duplication from class to instance that occurs in class-oriented languages.
+
+JavaScript functions can't really be duplicated (in a standard, reliable way), so what you end up with instead is a duplicated reference to the same shared function object (functions are objects; see Chapter 3). If you modified one of the shared function objects (like ignition()) by adding properties on top of it, for instance, both Vehicle and Car would be "affected" via the shared reference.
+
+Explicit mixins are a fine mechanism in JavaScript. But they appear more powerful than they really are. Not much benefit is actually derived from copying a property from one object to another, as opposed to just defining the properties twice, once on each object. And that's especially true given the function-object reference nuance we just mentioned.
+
+If it starts to get harder to properly use mixins than before you used them, you should probably stop using mixins. In fact, if you have to use a complex library/utility to work out all these details, it might be a sign that you're going about it the harder way, perhaps unnecessarily.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
