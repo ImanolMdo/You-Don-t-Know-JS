@@ -1,0 +1,173 @@
+
+Simple scalar primitives (strings, numbers, etc.) are assigned/passed by value-copy, but compound values (objects, etc.) are assigned/passed by reference-copy. References are not like references/pointers in other languages -- they're never pointed at other variables/references, only at the underlying values.
+
+In JavaScript, arrays are simply numerically indexed collections of any value-type. strings are somewhat "array-like", but they have distinct behaviors and care must be taken if you want to treat them as arrays. Numbers in JavaScript include both "integers" and floating-point values.
+
+Several special values are defined within the primitive types.
+
+The null type has just one value: null, and likewise the undefined type has just the undefined value. undefined is basically the default value in any variable or property if no other value is present. The void operator lets you create the undefined value from any other value.
+
+numbers include several special values, like NaN (supposedly "Not a Number", but really more appropriately "invalid number"); +Infinity and -Infinity; and -0.
+
+Arrays
+
+Generally, it's not a great idea to add string keys/properties to arrays. Use objects for holding values in keys/properties, and save arrays for strictly numerically indexed values.
+
+Strings
+
+It's a very common belief that strings are essentially just arrays of characters.
+
+Not exactly:
+
+JavaScript strings are immutable, while arrays are quite mutable. Moreover, the a[1] character position access form was not always widely valid JavaScript. Older versions of IE did not allow that syntax (but now they do). Instead, the correct approach has been a.charAt(1).
+
+A further consequence of immutable strings is that none of the string methods that alter its contents can modify in-place, but rather must create and return new strings. By contrast, many of the methods that change array contents actually do modify in-place.
+
+
+Numbers
+JavaScript has just one numeric type: number. This type includes both "integer" values and fractional decimal numbers.
+
+So, in JS, an "integer" is just a value that has no fractional decimal value. That is, 42.0 is as much an "integer" as 42.
+
+
+ Since . is a valid numeric character, it will first be interpreted as part of the number literal, if possible, instead of being interpreted as a property accessor.
+
+// invalid syntax:
+42.toFixed( 3 );	// SyntaxError
+
+// these are all valid:
+(42).toFixed( 3 );	// "42.000"
+0.42.toFixed( 3 );	// "0.420"
+42..toFixed( 3 );	// "42.000"
+42.toFixed(3) is invalid syntax, because the . is swallowed up as part of the 42. literal (which is valid -- see above!), and so then there's no . property operator present to make the .toFixed access.
+
+42..toFixed(3) works because the first . is part of the number and the second . is the property operator. But it probably looks strange, and indeed it's very rare to see something like that in actual JavaScript code. 
+
+numbers can also be specified in exponent form, which is common when representing larger numbers, such as:
+
+var onethousand = 1E3;						// means 1 * 10^3
+var onemilliononehundredthousand = 1.1E6;	// means 1.1 * 10^6
+number literals can also be expressed in other bases, like binary, octal, and hexadecimal.
+
+These formats work in current versions of JavaScript:
+
+0xf3; // hexadecimal for: 243
+0Xf3; // ditto
+
+0363; // octal for: 243
+
+Special Values
+There are several special values spread across the various types that the alert JS developer needs to be aware of, and use properly.
+
+The Non-value Values
+For the undefined type, there is one and only one value: undefined. For the null type, there is one and only one value: null. So for both of them, the label is both its type and its value.
+
+Friends don't let friends override undefined. Ever.
+
+void Operator
+While undefined is a built-in identifier that holds (unless modified -- see above!) the built-in undefined value, another way to get this value is the void operator.
+
+The expression void ___ "voids" out any value, so that the result of the expression is always the undefined value. It doesn't modify the existing value; it just ensures that no value comes back from the operator expression.
+
+var a = 42;
+
+console.log( void a, a ); // undefined 42
+By convention (mostly from C-language programming), to represent the undefined value stand-alone by using void, you'd use void 0 (though clearly even void true or any other void expression does the same thing). There's no practical difference between void 0, void 1, and undefined.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

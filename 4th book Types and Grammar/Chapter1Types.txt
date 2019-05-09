@@ -1,0 +1,131 @@
+
+JavaScript defines seven built-in types:
+
+null
+undefined
+boolean
+number
+string
+object
+symbol -- added in ES6!
+
+Note: All of these types except object are called "primitives".
+
+The typeof operator inspects the type of the given value, and always returns one of seven string values -- surprisingly, there's not an exact 1-to-1 match with the seven built-in types we just listed.
+
+As you may have noticed, I excluded null from the above listing. It's special -- special in the sense that it's buggy when combined with the typeof operator:
+
+typeof null === "object"; // true
+
+
+A type is an intrinsic, built-in set of characteristics that uniquely identifies the behavior of a particular value and distinguishes it from other values, both to the engine and to the developer.
+
+Having a proper understanding of each type and its intrinsic behavior is absolutely essential to understanding how to properly and accurately convert values to different types 
+
+
+In JavaScript, variables don't have types -- values have types. Variables can hold any value, at any time.
+
+
+undefined vs "undeclared"
+Variables that have no value currently, actually have the undefined value. Calling typeof against such variables will return "undefined":
+
+An "undefined" variable is one that has been declared in the accessible scope, but at the moment has no other value in it. By contrast, an "undeclared" variable is one that has not been formally declared in the accessible scope.
+
+Consider:
+
+var a;
+
+a; // undefined
+b; // ReferenceError: b is not defined
+
+There's also a special behavior associated with typeof as it relates to undeclared variables that even further reinforces the confusion. Consider:
+
+var a;
+
+typeof a; // "undefined"
+
+typeof b; // "undefined"
+The typeof operator returns "undefined" even for "undeclared" (or "not defined") variables
+
+
+typeof Undeclared
+Nevertheless, this safety guard is a useful feature when dealing with JavaScript in the browser, where multiple script files can load variables into the shared global namespace.
+
+However, the safety guard (preventing an error) on typeof when used against an undeclared variable can be helpful in certain cases.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
